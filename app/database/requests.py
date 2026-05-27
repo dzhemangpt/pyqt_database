@@ -40,7 +40,15 @@ from sqlalchemy import select, update,delete,desc
 
 async def selectCars():
     async with async_assign() as session:
-        return await session.scalar(select(Car))
+        return await session.scalars(select(Car))
+    
+async def selectOwners():
+    async with async_assign() as session:
+        return await session.scalars(select(Owner))
+
+async def selectPrava():
+    async with async_assign() as session:
+        return await session.scalars(select(Prava))        
     
     
 
