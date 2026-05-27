@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>close_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+    <file>add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+    <file>search_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+    <file>delete_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</file>
+  </qresource>
+  <qresource prefix="newPrefix"/>
+</RCC>

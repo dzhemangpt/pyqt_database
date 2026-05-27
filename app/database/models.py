@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, Relationship
 from sqlalchemy.ext.asyncio import AsyncAttrs,async_sessionmaker,create_async_engine
 
 
-engine = create_async_engine(url='sqlite+aiosqlite:///auto.sqlite3')
+engine = create_async_engine(url='sqlite+aiosqlite:///auto.db')
 
 async_assign=async_sessionmaker(engine)
 
