@@ -50,6 +50,12 @@ async def selectPrava():
     async with async_assign() as session:
         return await session.scalars(select(Prava))        
     
+async def selectFiltered(table:str=None,filter:str=None):
+    async with async_assign() as session:
+        if table=='owners':    return await session.scalars(select(Owner).where(filter))
+        elif table=='cars':    return await session.scalars(select(Car).where(filter))
+        else: return await session.scalars(select(Prava).where(filter))
+    
     
 
 # async def get_maincategories():

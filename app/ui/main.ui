@@ -10,6 +10,18 @@
     <height>519</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>947</width>
+    <height>519</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>947</width>
+    <height>519</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Автомобиль</string>
   </property>
@@ -35,7 +47,7 @@ font-family: Noto Sans SC;</string>
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab1">
      <attribute name="title">
@@ -47,7 +59,7 @@ font-family: Noto Sans SC;</string>
         <x>10</x>
         <y>10</y>
         <width>711</width>
-        <height>431</height>
+        <height>251</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -248,7 +260,7 @@ background-color:rgba(255,255,255,60);
         </size>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_9">
+      <widget class="QSpinBox" name="spinBox_3">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -263,7 +275,7 @@ background-color:rgba(255,255,255,60);
       <property name="geometry">
        <rect>
         <x>510</x>
-        <y>450</y>
+        <y>270</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -301,8 +313,8 @@ background-color:rgba(255,255,255,60);
      <widget class="QPushButton" name="pushButton_15">
       <property name="geometry">
        <rect>
-        <x>320</x>
-        <y>450</y>
+        <x>300</x>
+        <y>270</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -329,6 +341,97 @@ background-color:rgba(255,255,255,60);
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/icon/add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</normaloff>:/icon/add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableView_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>310</y>
+        <width>711</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(255, 255, 255)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_17">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>460</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+font: 75 14pt &quot;Calibri&quot;;
+background-color:rgba(255,255,255,30);
+border: 1px solid rgba(255,255,255);
+border-radius: 7px;
+color:white;
+}
+
+QPushButton:hover{
+background-color:rgba(255,255,255,45);
+}
+QPushButton:pressed{
+background-color:rgba(255,255,255,60);
+}</string>
+      </property>
+      <property name="text">
+       <string>Добавить запись</string>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/icon/add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</normaloff>:/icon/add_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>16</width>
+        <height>16</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_18">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>460</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+font: 75 14pt &quot;Calibri&quot;;
+background-color:rgba(255,255,255,30);
+border: 1px solid rgba(255,255,255);
+border-radius: 7px;
+color:white;
+}
+
+QPushButton:hover{
+background-color:rgba(255,255,255,45);
+}
+QPushButton:pressed{
+background-color:rgba(255,255,255,60);
+}</string>
+      </property>
+      <property name="text">
+       <string>Удалить запись</string>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/icon/delete_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</normaloff>:/icon/delete_30dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -502,20 +605,6 @@ border-radius: 0px;</string>
         <string>Цена от</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_3">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>170</y>
-         <width>181</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: 1px solid rgba(255,255,255);
-border-radius: 7px;</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
@@ -536,20 +625,6 @@ border-radius: 0px;</string>
         <string>Цена до</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="spinBox_4">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>230</y>
-         <width>181</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: 1px solid rgba(255,255,255);
-border-radius: 7px;</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="pushButton_6">
        <property name="geometry">
         <rect>
@@ -560,11 +635,20 @@ border-radius: 7px;</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 75 14pt &quot;Calibri&quot;;
+        <string notr="true">QPushButton{
+font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
 border: 1px solid rgba(255,255,255);
 border-radius: 7px;
-color:white;</string>
+color:white;
+}
+
+QPushButton:hover{
+background-color:rgba(255,255,255,45);
+}
+QPushButton:pressed{
+background-color:rgba(255,255,255,60);
+}</string>
        </property>
        <property name="text">
         <string>Сбросить</string>
@@ -580,11 +664,31 @@ color:white;</string>
         </size>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_14">
+      <widget class="QSpinBox" name="spinBox">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>320</y>
+         <y>310</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>230</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>170</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -741,7 +845,7 @@ border: 0px solid rgba(255,255,255);
 border-radius: 0px;</string>
        </property>
        <property name="text">
-        <string>Лимит записей (0 - все)</string>
+        <string>Лимит записей</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_5">
@@ -822,7 +926,7 @@ background-color:rgba(255,255,255,60);
         </size>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_15">
+      <widget class="QSpinBox" name="spinBox_2">
        <property name="geometry">
         <rect>
          <x>20</x>
