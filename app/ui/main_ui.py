@@ -51,11 +51,11 @@ class Ui_MainWindow(object):
 "background-color:rgba(255,255,255,0);\n"
 "color:white;\n"
 "border-radius: 7px;\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "")
         self.lineEdit = QLineEdit(self.groupBox)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setGeometry(QRect(20, 60, 181, 31))
+        self.lineEdit.setGeometry(QRect(20, 70, 181, 31))
         self.label = QLabel(self.groupBox)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(20, 310, 181, 16))
@@ -66,29 +66,29 @@ class Ui_MainWindow(object):
 "border-radius: 7px;")
         self.lineEdit_2 = QLineEdit(self.groupBox)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setGeometry(QRect(20, 100, 181, 31))
+        self.lineEdit_2.setGeometry(QRect(20, 30, 181, 31))
         self.lineEdit_3 = QLineEdit(self.groupBox)
         self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setGeometry(QRect(20, 140, 181, 31))
+        self.lineEdit_3.setGeometry(QRect(20, 110, 181, 31))
         self.lineEdit_4 = QLineEdit(self.groupBox)
         self.lineEdit_4.setObjectName(u"lineEdit_4")
-        self.lineEdit_4.setGeometry(QRect(20, 180, 181, 31))
+        self.lineEdit_4.setGeometry(QRect(20, 150, 181, 31))
         self.lineEdit_5 = QLineEdit(self.groupBox)
         self.lineEdit_5.setObjectName(u"lineEdit_5")
-        self.lineEdit_5.setGeometry(QRect(20, 20, 181, 31))
+        self.lineEdit_5.setGeometry(QRect(20, 190, 181, 31))
         self.lineEdit_6 = QLineEdit(self.groupBox)
         self.lineEdit_6.setObjectName(u"lineEdit_6")
-        self.lineEdit_6.setGeometry(QRect(20, 220, 181, 31))
+        self.lineEdit_6.setGeometry(QRect(20, 230, 181, 31))
         self.lineEdit_7 = QLineEdit(self.groupBox)
         self.lineEdit_7.setObjectName(u"lineEdit_7")
-        self.lineEdit_7.setGeometry(QRect(20, 260, 181, 31))
+        self.lineEdit_7.setGeometry(QRect(20, 270, 181, 31))
         self.pushButton_8 = QPushButton(self.groupBox)
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setGeometry(QRect(20, 370, 81, 41))
         self.pushButton_8.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -109,7 +109,7 @@ class Ui_MainWindow(object):
         self.pushButton_9.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -133,7 +133,7 @@ class Ui_MainWindow(object):
         self.pushButton_14.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         self.pushButton_15.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -179,7 +179,7 @@ class Ui_MainWindow(object):
         self.pushButton_17.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -198,7 +198,7 @@ class Ui_MainWindow(object):
         self.pushButton_18.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -224,13 +224,13 @@ class Ui_MainWindow(object):
         self.groupBox_2.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,0);\n"
 "color:white;\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;")
         self.lineEdit_8 = QLineEdit(self.groupBox_2)
         self.lineEdit_8.setObjectName(u"lineEdit_8")
         self.lineEdit_8.setGeometry(QRect(20, 60, 181, 31))
         self.lineEdit_8.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;")
         self.label_2 = QLabel(self.groupBox_2)
@@ -247,7 +247,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.comboBox.setObjectName(u"comboBox")
         self.comboBox.setGeometry(QRect(20, 20, 181, 31))
         self.comboBox.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;")
         self.comboBox_2 = QComboBox(self.groupBox_2)
@@ -273,11 +273,11 @@ class Ui_MainWindow(object):
         self.comboBox_2.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
 "\n"
 "color:white;\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;")
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(20, 150, 71, 16))
+        self.label_3.setGeometry(QRect(20, 150, 91, 16))
         self.label_3.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,0);\n"
 "color:white;\n"
@@ -285,7 +285,7 @@ class Ui_MainWindow(object):
 "border-radius: 0px;")
         self.label_4 = QLabel(self.groupBox_2)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(20, 210, 71, 16))
+        self.label_4.setGeometry(QRect(20, 210, 81, 16))
         self.label_4.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,0);\n"
 "color:white;\n"
@@ -297,7 +297,7 @@ class Ui_MainWindow(object):
         self.pushButton_6.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -313,19 +313,36 @@ class Ui_MainWindow(object):
         self.spinBox = QSpinBox(self.groupBox_2)
         self.spinBox.setObjectName(u"spinBox")
         self.spinBox.setGeometry(QRect(20, 310, 181, 31))
+        self.spinBox.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
+"background-color:rgba(255,255,255,0);\n"
+"color:white;\n"
+"border: 1px solid rgb(255,255,255);\n"
+"border-radius: 7px;")
         self.doubleSpinBox = QDoubleSpinBox(self.groupBox_2)
         self.doubleSpinBox.setObjectName(u"doubleSpinBox")
         self.doubleSpinBox.setGeometry(QRect(20, 230, 181, 31))
+        self.doubleSpinBox.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
+"background-color:rgba(255,255,255,0);\n"
+"color:white;\n"
+"border: 1px solid rgb(255,255,255);\n"
+"border-radius: 7px;")
+        self.doubleSpinBox.setMaximum(1000000000.000000000000000)
         self.doubleSpinBox_2 = QDoubleSpinBox(self.groupBox_2)
         self.doubleSpinBox_2.setObjectName(u"doubleSpinBox_2")
         self.doubleSpinBox_2.setGeometry(QRect(20, 170, 181, 31))
+        self.doubleSpinBox_2.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
+"background-color:rgba(255,255,255,0);\n"
+"color:white;\n"
+"border: 1px solid rgb(255,255,255);\n"
+"border-radius: 7px;")
+        self.doubleSpinBox_2.setMaximum(1000000000.000000000000000)
         self.pushButton_13 = QPushButton(self.tab2)
         self.pushButton_13.setObjectName(u"pushButton_13")
         self.pushButton_13.setGeometry(QRect(210, 450, 181, 31))
         self.pushButton_13.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -344,7 +361,7 @@ class Ui_MainWindow(object):
         self.pushButton_16.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -362,21 +379,18 @@ class Ui_MainWindow(object):
         self.tab3.setObjectName(u"tab3")
         self.groupBox_3 = QGroupBox(self.tab3)
         self.groupBox_3.setObjectName(u"groupBox_3")
-        self.groupBox_3.setGeometry(QRect(350, 10, 211, 431))
+        self.groupBox_3.setGeometry(QRect(510, 10, 211, 431))
         self.groupBox_3.setStyleSheet(u"font: 75 16pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,0);\n"
 "color:white;\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;")
         self.lineEdit_10 = QLineEdit(self.groupBox_3)
         self.lineEdit_10.setObjectName(u"lineEdit_10")
-        self.lineEdit_10.setGeometry(QRect(20, 70, 181, 31))
+        self.lineEdit_10.setGeometry(QRect(20, 40, 181, 31))
         self.lineEdit_11 = QLineEdit(self.groupBox_3)
         self.lineEdit_11.setObjectName(u"lineEdit_11")
-        self.lineEdit_11.setGeometry(QRect(20, 120, 181, 31))
-        self.lineEdit_12 = QLineEdit(self.groupBox_3)
-        self.lineEdit_12.setObjectName(u"lineEdit_12")
-        self.lineEdit_12.setGeometry(QRect(20, 20, 181, 31))
+        self.lineEdit_11.setGeometry(QRect(20, 90, 181, 31))
         self.label_5 = QLabel(self.groupBox_3)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(20, 170, 181, 21))
@@ -392,7 +406,7 @@ class Ui_MainWindow(object):
         self.pushButton_5.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -411,7 +425,7 @@ class Ui_MainWindow(object):
         self.pushButton_7.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -429,7 +443,7 @@ class Ui_MainWindow(object):
         self.spinBox_2.setGeometry(QRect(20, 200, 181, 31))
         self.tableView_3 = QTableView(self.tab3)
         self.tableView_3.setObjectName(u"tableView_3")
-        self.tableView_3.setGeometry(QRect(10, 20, 321, 421))
+        self.tableView_3.setGeometry(QRect(10, 10, 491, 431))
         self.tableView_3.setStyleSheet(u"background-color:rgb(255, 255, 255)")
         self.pushButton_11 = QPushButton(self.tab3)
         self.pushButton_11.setObjectName(u"pushButton_11")
@@ -437,7 +451,7 @@ class Ui_MainWindow(object):
         self.pushButton_11.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -456,7 +470,7 @@ class Ui_MainWindow(object):
         self.pushButton_12.setStyleSheet(u"QPushButton{\n"
 "font: 75 14pt \"Calibri\";\n"
 "background-color:rgba(255,255,255,30);\n"
-"border: 1px solid rgba(255,255,255);\n"
+"border: 1px solid rgb(255,255,255);\n"
 "border-radius: 7px;\n"
 "color:white;\n"
 "}\n"
@@ -487,7 +501,14 @@ class Ui_MainWindow(object):
         self.lineEdit.setStatusTip("")
 #endif // QT_CONFIG(statustip)
         self.lineEdit.setText("")
-        self.label.setText(QCoreApplication.translate("MainWindow", u"\u041b\u0438\u043c\u0438\u0442 \u0437\u0430\u043f\u0438\u0441\u0435\u0439 (0 - \u0432\u0441\u0435)", None))
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0418\u043c\u044f", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0435\u0439", None))
+        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u043c\u0438\u043b\u0438\u044f", None))
+        self.lineEdit_3.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e", None))
+        self.lineEdit_4.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u043c\u0435\u0440 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430", None))
+        self.lineEdit_5.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0413\u043e\u0440\u043e\u0434", None))
+        self.lineEdit_6.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0423\u043b\u0438\u0446\u0430", None))
+        self.lineEdit_7.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u043c", None))
         self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0439\u0442\u0438", None))
         self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
         self.pushButton_14.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u044c", None))
@@ -496,8 +517,10 @@ class Ui_MainWindow(object):
         self.pushButton_18.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab1), QCoreApplication.translate("MainWindow", u"\u0412\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u044b", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0438\u0441\u043a", None))
+        self.lineEdit_8.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u041c\u043e\u0434\u0435\u043b\u044c", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u0435\u0439", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0439\u0442\u0438", None))
+        self.comboBox.setCurrentText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u0426\u0435\u043d\u0430 \u043e\u0442", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0426\u0435\u043d\u0430 \u0434\u043e", None))
         self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))
@@ -505,6 +528,8 @@ class Ui_MainWindow(object):
         self.pushButton_16.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0437\u0430\u043f\u0438\u0441\u044c", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab2), QCoreApplication.translate("MainWindow", u"\u041c\u0430\u0448\u0438\u043d\u044b", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u0438\u0441\u043a", None))
+        self.lineEdit_10.setPlaceholderText(QCoreApplication.translate("MainWindow", u"ID \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0430", None))
+        self.lineEdit_11.setPlaceholderText(QCoreApplication.translate("MainWindow", u"ID \u043c\u0430\u0448\u0438\u043d\u044b", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u041b\u0438\u043c\u0438\u0442 \u0437\u0430\u043f\u0438\u0441\u0435\u0439", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0439\u0442\u0438", None))
         self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c", None))

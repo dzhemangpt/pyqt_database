@@ -80,7 +80,7 @@ font-family: Noto Sans SC;</string>
 background-color:rgba(255,255,255,0);
 color:white;
 border-radius: 7px;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 </string>
       </property>
       <property name="title">
@@ -90,7 +90,7 @@ border: 1px solid rgba(255,255,255);
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>60</y>
+         <y>70</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -100,6 +100,9 @@ border: 1px solid rgba(255,255,255);
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="placeholderText">
+        <string>Имя</string>
        </property>
       </widget>
       <widget class="QLabel" name="label">
@@ -119,67 +122,85 @@ border: 0px solid rgba(255,255,255);
 border-radius: 7px;</string>
        </property>
        <property name="text">
-        <string>Лимит записей (0 - все)</string>
+        <string>Показать записей</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_2">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>100</y>
+         <y>30</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Фамилия</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_3">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>140</y>
+         <y>110</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Отчество</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_4">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>180</y>
+         <y>150</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Номер телефона</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_5">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>20</y>
+         <y>190</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Город</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_6">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>220</y>
+         <y>230</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Улица</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_7">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>260</y>
+         <y>270</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>Дом</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_8">
@@ -195,7 +216,7 @@ border-radius: 7px;</string>
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -234,7 +255,7 @@ background-color:rgba(255,255,255,60);
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -284,7 +305,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -323,7 +344,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -375,7 +396,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -414,7 +435,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -471,7 +492,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,0);
 color:white;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;</string>
       </property>
       <property name="title">
@@ -488,9 +509,12 @@ border-radius: 7px;</string>
        </property>
        <property name="styleSheet">
         <string notr="true">font: 75 16pt &quot;Calibri&quot;;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;</string>
+       </property>
+       <property name="placeholderText">
+        <string>Модель</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_2">
@@ -526,7 +550,7 @@ border-radius: 0px;</string>
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -563,9 +587,12 @@ background-color:rgba(255,255,255,60);
        </property>
        <property name="styleSheet">
         <string notr="true">font: 75 16pt &quot;Calibri&quot;;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;</string>
+       </property>
+       <property name="currentText">
+        <string/>
        </property>
       </widget>
       <widget class="QComboBox" name="comboBox_2">
@@ -581,7 +608,7 @@ color:white;</string>
         <string notr="true">font: 75 16pt &quot;Calibri&quot;;
 
 color:white;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;</string>
        </property>
       </widget>
@@ -590,7 +617,7 @@ border-radius: 7px;</string>
         <rect>
          <x>20</x>
          <y>150</y>
-         <width>71</width>
+         <width>91</width>
          <height>16</height>
         </rect>
        </property>
@@ -610,7 +637,7 @@ border-radius: 0px;</string>
         <rect>
          <x>20</x>
          <y>210</y>
-         <width>71</width>
+         <width>81</width>
          <height>16</height>
         </rect>
        </property>
@@ -638,7 +665,7 @@ border-radius: 0px;</string>
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -673,6 +700,13 @@ background-color:rgba(255,255,255,60);
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
+background-color:rgba(255,255,255,0);
+color:white;
+border: 1px solid rgb(255,255,255);
+border-radius: 7px;</string>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="doubleSpinBox">
        <property name="geometry">
@@ -683,6 +717,16 @@ background-color:rgba(255,255,255,60);
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
+background-color:rgba(255,255,255,0);
+color:white;
+border: 1px solid rgb(255,255,255);
+border-radius: 7px;</string>
+       </property>
+       <property name="maximum">
+        <double>1000000000.000000000000000</double>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
        <property name="geometry">
@@ -692,6 +736,16 @@ background-color:rgba(255,255,255,60);
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
+background-color:rgba(255,255,255,0);
+color:white;
+border: 1px solid rgb(255,255,255);
+border-radius: 7px;</string>
+       </property>
+       <property name="maximum">
+        <double>1000000000.000000000000000</double>
        </property>
       </widget>
      </widget>
@@ -708,7 +762,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -747,7 +801,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -781,7 +835,7 @@ background-color:rgba(255,255,255,60);
      <widget class="QGroupBox" name="groupBox_3">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>510</x>
         <y>10</y>
         <width>211</width>
         <height>431</height>
@@ -791,7 +845,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,0);
 color:white;
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;</string>
       </property>
       <property name="title">
@@ -801,30 +855,26 @@ border-radius: 7px;</string>
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>70</y>
+         <y>40</y>
          <width>181</width>
          <height>31</height>
         </rect>
+       </property>
+       <property name="placeholderText">
+        <string>ID владельца</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_11">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>120</y>
+         <y>90</y>
          <width>181</width>
          <height>31</height>
         </rect>
        </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_12">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>181</width>
-         <height>31</height>
-        </rect>
+       <property name="placeholderText">
+        <string>ID машины</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_5">
@@ -861,7 +911,7 @@ border-radius: 0px;</string>
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -900,7 +950,7 @@ background-color:rgba(255,255,255,60);
         <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -941,9 +991,9 @@ background-color:rgba(255,255,255,60);
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
-        <width>321</width>
-        <height>421</height>
+        <y>10</y>
+        <width>491</width>
+        <height>431</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -963,7 +1013,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }
@@ -1002,7 +1052,7 @@ background-color:rgba(255,255,255,60);
        <string notr="true">QPushButton{
 font: 75 14pt &quot;Calibri&quot;;
 background-color:rgba(255,255,255,30);
-border: 1px solid rgba(255,255,255);
+border: 1px solid rgb(255,255,255);
 border-radius: 7px;
 color:white;
 }

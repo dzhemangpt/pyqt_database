@@ -1,8 +1,9 @@
 from sqlalchemy import BigInteger, String, ForeignKey, Column, LargeBinary
-
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column, Relationship
 from sqlalchemy import Date
 from sqlalchemy.ext.asyncio import AsyncAttrs,async_sessionmaker,create_async_engine
+
+import asyncio
 import datetime as dt
 
 engine = create_async_engine(url='sqlite+aiosqlite:///auto.db')
@@ -40,6 +41,7 @@ class Car(Base):
     model:Mapped[str]= mapped_column(String(25))
     color:Mapped[str]= mapped_column(String(25))
     power:Mapped[int]=mapped_column()
+    cost:Mapped[float]=mapped_column()
 
 class Vydacha(Base):
     __tablename__='vydacha'
@@ -57,3 +59,5 @@ async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+if __name__=="__main__":
+    asyncio.run(async_main())
