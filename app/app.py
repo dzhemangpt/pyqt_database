@@ -1,337 +1,343 @@
 import sys
-import os
-import asyncio
 from datetime import datetime
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QHeaderView
-from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlRelationalTableModel, QSqlRelation, QSqlRelationalDelegate, QSqlQuery
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QHeaderView, QStyledItemDelegate
+from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from PySide6.QtCore import Qt, QDate
-
-# Импортируем UI и Модели
-from app.ui.main_ui import Ui_MainWindow
-from app.database.models import async_main
-
-
+from app.ui.new_ui import Ui_MainWindow
+from PySide6.QtCore import Qt, QDate, QTimer
+from PySide6.QtSql import QSqlQueryModel
+class NumberDelegate(QStyledItemDelegate):
+    """Делегат для форматирования чисел (цена с 2 знаками после запятой)"""
+    def displayText(self, value, locale):
+        if isinstance(value, (int, float)):
+            if value == int(value):
+                return str(int(value))
+            else:
+                return f"{value:.2f}"
+        return str(value)
 
 class AppLogic(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
-        # 1. Инициализация базы данных (создание таблиц через SQLAlchemy)
-        asyncio.run(async_main())
-
-        # 2. Подключение Qt к той же базе данных
+        # 1. Подключение к базе данных
         self.db = QSqlDatabase.addDatabase("QSQLITE")
-        self.db.setDatabaseName("auto.db")
-
+        self.db.setDatabaseName("toys.db")
+        
         if not self.db.open():
-            QMessageBox.critical(self, "Ошибка", "Не удалось подключиться к базе данных auto.db")
+            QMessageBox.critical(self, "Ошибка", "Не удалось подключиться к базе данных toys.db")
             sys.exit(1)
-
+        
         print("База данных подключена успешно!")
 
-        # 3. Настройка Моделей данных
+        # 2. Настройка моделей данных
         self.setup_models()
-
-        # 4. Настройка Интерфейса и Связей
+        
+        # 3. Настройка интерфейса и связей
         self.setup_ui_logic()
-
-        # 5. Заполнение ComboBox (Уникальные значения)
+        
+        # 4. Заполнение ComboBox категориями
         self.populate_comboboxes()
+        
+        # 5. Инициализация статистики
+        self.update_statistics()
 
     def setup_models(self):
-        # --- MODEL 1: Owners (Владельцы) ---
-        self.model_owners = QSqlTableModel(self, self.db)
-        self.model_owners.setTable("owners")
-        self.model_owners.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
-        self.model_owners.setHeaderData(1, Qt.Orientation.Horizontal, "Имя")
-        self.model_owners.setHeaderData(2, Qt.Orientation.Horizontal, "Фамилия")
-        self.model_owners.setHeaderData(3, Qt.Orientation.Horizontal, "Отчество")
-        self.model_owners.setHeaderData(4, Qt.Orientation.Horizontal, "Телефон")
-        self.model_owners.setHeaderData(5, Qt.Orientation.Horizontal, "Город")
-        self.model_owners.setHeaderData(6, Qt.Orientation.Horizontal, "Улица")
-        self.model_owners.setHeaderData(7, Qt.Orientation.Horizontal, "Дом")
-        self.model_owners.select()
-        self.tableView.setModel(self.model_owners)
-        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # --- MODEL 1: Toys (Игрушки - верхняя таблица) ---
+        self.model_toys = QSqlTableModel(self, self.db)
+        self.model_toys.setTable("toys")
+        self.model_toys.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
+        self.model_toys.setHeaderData(1, Qt.Orientation.Horizontal, "Название")
+        self.model_toys.setHeaderData(2, Qt.Orientation.Horizontal, "ID Категории")
+        self.model_toys.setHeaderData(3, Qt.Orientation.Horizontal, "Производитель")
+        self.model_toys.setHeaderData(4, Qt.Orientation.Horizontal, "Цена")
+        self.model_toys.setHeaderData(5, Qt.Orientation.Horizontal, "Возраст")
+        self.model_toys.setHeaderData(6, Qt.Orientation.Horizontal, "Количество")
+        self.model_toys.setHeaderData(7, Qt.Orientation.Horizontal, "Описание")
+        self.model_toys.select()
+        self.tableView.setModel(self.model_toys)
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        
+        # Устанавливаем делегат для столбца "Цена" (индекс 4)
+        price_delegate = NumberDelegate(self.tableView)
+        self.tableView.setItemDelegateForColumn(4, price_delegate)
 
-        # --- MODEL 2: Vydacha (Выдача - нижняя таблица) ---
-        self.model_vydacha = QSqlTableModel(self, self.db)
-        self.model_vydacha.setTable("vydacha")
-        self.model_vydacha.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
-        self.model_vydacha.setHeaderData(1, Qt.Orientation.Horizontal, "ID Владельца")
-        self.model_vydacha.setHeaderData(2, Qt.Orientation.Horizontal, "Дата")
-        self.model_vydacha.setHeaderData(3, Qt.Orientation.Horizontal, "Выдал")
-        self.model_vydacha.select()
-        self.tableView_4.setModel(self.model_vydacha)
-        self.tableView_4.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
-        # --- MODEL 3: Cars (Машины) ---
-        self.model_cars = QSqlTableModel(self, self.db)
-        self.model_cars.setTable("cars")
-        self.model_cars.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
-        self.model_cars.setHeaderData(1, Qt.Orientation.Horizontal, "Марка")
-        self.model_cars.setHeaderData(2, Qt.Orientation.Horizontal, "Модель")
-        self.model_cars.setHeaderData(3, Qt.Orientation.Horizontal, "Цвет")
-        self.model_cars.setHeaderData(4, Qt.Orientation.Horizontal, "Мощность")
-        self.model_cars.setHeaderData(5, Qt.Orientation.Horizontal, "Цена")
-        self.model_cars.select()
-        self.tableView_2.setModel(self.model_cars)
-        self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
-        # --- MODEL 4: Prava (Права - Связанные данные) ---
-        self.model_prava = QSqlRelationalTableModel(self, self.db)
-        self.model_prava.setTable("prava")
-
-        # Связь: id_car -> cars.mark (показываем марку машины)
-        self.model_prava.setRelation(1, QSqlRelation("cars", "id", "mark"))
-        # Связь: id_owner -> owners.surname (показываем фамилию владельца)
-        self.model_prava.setRelation(2, QSqlRelation("owners", "id", "surname"))
-
-        self.model_prava.setHeaderData(0, Qt.Orientation.Horizontal, "ID Прав")
-        self.model_prava.setHeaderData(1, Qt.Orientation.Horizontal, "Марка Машины")
-        self.model_prava.setHeaderData(2, Qt.Orientation.Horizontal, "Фамилия Владельца")
-
-        self.model_prava.select()
-        self.tableView_3.setModel(self.model_prava)
-
-        # Устанавливаем делегат для корректного редактирования связанных полей
-        self.tableView_3.setItemDelegate(QSqlRelationalDelegate(self.tableView_3))
-        self.tableView_3.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # --- MODEL 2: Reviews (Отзывы - нижняя таблица) ---
+        self.model_reviews = QSqlTableModel(self, self.db)
+        self.model_reviews.setTable("reviews")
+        self.model_reviews.setHeaderData(0, Qt.Orientation.Horizontal, "ID Отзыва")
+        # Скрываем id_toy (индекс 1), не устанавливаем заголовок
+        self.model_reviews.setHeaderData(2, Qt.Orientation.Horizontal, "Имя покупателя")
+        self.model_reviews.setHeaderData(3, Qt.Orientation.Horizontal, "Рейтинг")
+        self.model_reviews.setHeaderData(4, Qt.Orientation.Horizontal, "Текст")
+        self.model_reviews.setHeaderData(5, Qt.Orientation.Horizontal, "Дата покупки")
+        self.model_reviews.setHeaderData(6, Qt.Orientation.Horizontal, "Дата отзыва")
+        self.model_reviews.select()
+        self.tableView_2.setModel(self.model_reviews)
+        self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        
+        # Скрываем столбец id_toy (индекс 1)
+        self.tableView_2.setColumnHidden(1, True)
 
     def populate_comboboxes(self):
-        # Заполняем ComboBox Марками (Tab 2)
-        query_mark = QSqlQuery("SELECT DISTINCT mark FROM cars ORDER BY mark", self.db)
+        """Заполняем ComboBox категориями из таблицы category"""
+        query = QSqlQuery("SELECT id_category, title_category FROM category ORDER BY title_category", self.db)
         self.comboBox.clear()
-        self.comboBox.addItem("Все марки", "all")
-        while query_mark.next():
-            self.comboBox.addItem(query_mark.value(0))
-
-        # Заполняем ComboBox Цветами (Tab 2)
-        query_color = QSqlQuery("SELECT DISTINCT color FROM cars ORDER BY color", self.db)
-        self.comboBox_2.clear()
-        self.comboBox_2.addItem("Все цвета", "all")
-        while query_color.next():
-            self.comboBox_2.addItem(query_color.value(0))
+        self.comboBox.addItem("Все категории", -1)  # Значение -1 для отображения всех
+        
+        while query.next():
+            id_category = query.value(0)
+            title_category = query.value(1)
+            self.comboBox.addItem(title_category, id_category)
 
     def setup_ui_logic(self):
-        # --- Tab 1: Owners & Vydacha ---
-        # При клике на владельца обновляем нижнюю таблицу
-        self.tableView.selectionModel().selectionChanged.connect(self.on_owner_selected)
+    # Связь: при клике на игрушку показываем её отзывы
+        self.tableView.selectionModel().selectionChanged.connect(self.on_toy_selected)
+        
+        # Отслеживаем изменения в модели toys для обновления статистики
+        self.model_toys.dataChanged.connect(self.on_toy_modified)
+        
+        # Кнопки для toys
+        self.pushButton_3.clicked.connect(self.add_toy)
+        self.pushButton_4.clicked.connect(self.delete_toy)
+        self.pushButton_1.clicked.connect(self.search_toys)
+        self.pushButton_2.clicked.connect(self.reset_search)
+        
+        # Кнопки для reviews
+        self.pushButton_5.clicked.connect(self.add_review)
+        self.pushButton_6.clicked.connect(self.delete_review)
 
-        # Кнопки
-        self.pushButton_15.clicked.connect(self.add_owner)
-        self.pushButton_14.clicked.connect(self.delete_record_generic)  # Для owners
-        self.pushButton_17.clicked.connect(self.add_vydacha)
-        self.pushButton_18.clicked.connect(self.delete_vydacha)
-        self.pushButton_8.clicked.connect(self.search_owners)
-        self.pushButton_9.clicked.connect(self.reset_search_owners)
+    def on_toy_modified(self, top_left, bottom_right, roles):
+        """Вызывается при изменении данных в таблице toys"""
+        # Используем QTimer для отложенного вызова после сохранения в БД
+        QTimer.singleShot(200, self.update_statistics)
 
-        # --- Tab 2: Cars ---
-        self.pushButton_13.clicked.connect(self.add_cars)
-        self.pushButton_16.clicked.connect(self.delete_record_cars)
-        self.pushButton_4.clicked.connect(self.search_cars)
-        self.pushButton_6.clicked.connect(self.reset_search_cars)
+    def on_toy_selected(self):
+        """При выборе игрушки фильтруем отзывы"""
+        indexes = self.tableView.selectionModel().selectedRows()
+        
+        if not indexes:
+            # Если ничего не выбрано - показываем пустую таблицу
+            self.model_reviews.setFilter("id_review = -1")
+            self.model_reviews.select()
+            return
+        
+        # Получаем ID выбранной игрушки (первый столбец = 0)
+        row = indexes[0].row()
+        toy_id = self.model_toys.data(self.model_toys.index(row, 0))
+        
+        if toy_id is not None:
+            # Фильтруем отзывы по id_toy
+            self.model_reviews.setFilter(f"id_toy = {toy_id}")
+            self.model_reviews.select()
+            print(f"✓ Показаны отзывы для игрушки ID={toy_id}")
+        else:
+            self.model_reviews.setFilter("id_review = -1")
+            self.model_reviews.select()
 
-        # --- Tab 3: Prava ---
-        self.pushButton_12.clicked.connect(self.add_prava)
-        self.pushButton_11.clicked.connect(self.delete_record_prava)
-        self.pushButton_5.clicked.connect(self.search_prava)
-        self.pushButton_7.clicked.connect(self.reset_search_prava)
-
-    # ================= ЛОГИКА TAB 1 (ВЛАДЕЛЬЦЫ) =================
-
-    def add_owner(self):
-        row = self.model_owners.rowCount()
-        self.model_owners.insertRow(row)
+    def add_toy(self):
+        """Добавление новой игрушки"""
+        row = self.model_toys.rowCount()
+        self.model_toys.insertRow(row)
         self.tableView.selectRow(row)
+        print(f"→ Добавлена новая строка игрушки (row={row})")
 
-    def delete_record_generic(self):
-        self.delete_record(self.tableView, self.model_owners)
-
-    # ==========МЕТОД УДАЛЕНИЯ ==========
-    def delete_record(self, table_view, model):
-        row = table_view.currentIndex().row()
+    def delete_toy(self):
+        """Удаление игрушки с подтверждением"""
+        row = self.tableView.currentIndex().row()
         if row < 0:
             QMessageBox.warning(self, "Ошибка", "Выберите строку для удаления")
             return
         
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Подтверждение")
-        msg_box.setText("Удалить запись?")
+        msg_box.setText("Удалить игрушку?")
         msg_box.setIcon(QMessageBox.Warning)
         btn_yes = msg_box.addButton("Да", QMessageBox.YesRole)
         btn_no = msg_box.addButton("Нет", QMessageBox.NoRole)
-        
         msg_box.exec()
         
         if msg_box.clickedButton() == btn_yes:
-            print(f"→ Попытка удаления строки {row} из таблицы {model.tableName()}")
-            
-            # Сначала удаляем строку из модели
-            if model.removeRow(row):
-                print(f"  ✓ Строка удалена из модели")
-                
-                # ОБЯЗАТЕЛЬНО сохраняем изменения в БД
-                if model.submitAll():
-                    print(f"  ✓ Изменения сохранены в БД")
-                    model.select()  # Обновляем view
+            print(f"→ Попытка удаления игрушки (row={row})")
+            if self.model_toys.removeRow(row):
+                if self.model_toys.submitAll():
+                    print(f"  ✓ Игрушка удалена")
+                    # ОБЯЗАТЕЛЬНО обновляем модель после удаления
+                    self.model_toys.select()
+                    # Обновляем статистику после удаления
+                    self.update_statistics()
+                    # Если был выбран удаленный элемент, очищаем отзывы
+                    self.model_reviews.setFilter("id_review = -1")
+                    self.model_reviews.select()
                 else:
-                    print(f"  ✗ Ошибка сохранения: {model.lastError().text()}")
+                    print(f"  ✗ Ошибка сохранения: {self.model_toys.lastError().text()}")
                     QMessageBox.critical(self, "Ошибка удаления", 
-                        f"Не удалось сохранить изменения в БД.\n\nОшибка: {model.lastError().text()}")
-                    model.select()  # Откат изменений
+                        f"Не удалось удалить запись.\n\nОшибка: {self.model_toys.lastError().text()}")
+                    self.model_toys.select()
             else:
-                print(f"  ✗ Не удалось удалить строку из модели")
+                print(f"  ✗ Не удалось удалить строку")
                 QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    # ==========МЕТОД ПОКАЗА ЗАПИСЕЙ VYDACHA ==========
-    def on_owner_selected(self):
+    def add_review(self):
+        """Добавление отзыва с автоматическим заполнением id_toy и date_review"""
+        # Получаем выбранную игрушку
         indexes = self.tableView.selectionModel().selectedRows()
-        if not indexes:
-            # Если ничего не выбрано - показываем пустую таблицу
-            self.model_vydacha.setFilter("id = -1")
-            self.model_vydacha.select()  # ОБЯЗАТЕЛЬНО применяем фильтр!
-            return
-
-        # Получаем ID выбранного владельца (первый столбец = 0)
-        row = indexes[0].row()
-        owner_id = self.model_owners.data(self.model_owners.index(row, 0))
-
-        if owner_id is not None:
-            # Фильтруем выдачу по этому ID
-            self.model_vydacha.setFilter(f"id_owner = {owner_id}")
-            self.model_vydacha.select()  # ОБЯЗАТЕЛЬНО применяем фильтр!
-            print(f"✓ Показаны записи для владельца ID={owner_id}")
-        else:
-            # Если owner_id None, показываем пустую таблицу
-            self.model_vydacha.setFilter("id = -1")
-            self.model_vydacha.select()
-
-    def add_vydacha(self):
-        # Получаем выбранного владельца, чтобы подставить ID
-        indexes = self.tableView.selectionModel().selectedRows()
-        owner_id = None
+        toy_id = None
         if indexes:
-            owner_id = self.model_owners.data(self.model_owners.index(indexes[0].row(), 0))
-
-        row = self.model_vydacha.rowCount()
-        self.model_vydacha.insertRow(row)
-
-        if owner_id:
-            # Подставляем ID владельца автоматически
-            idx = self.model_vydacha.index(row, 1)  # Столбец id_owner
-            self.model_vydacha.setData(idx, owner_id)
-
-        self.tableView_4.selectRow(row)
-        # Валидация даты (текущая дата)
-        date_idx = self.model_vydacha.index(row, 2)  # Столбец date
-        self.model_vydacha.setData(date_idx, QDate.currentDate().toString("yyyy-MM-dd"))
-
-    def delete_vydacha(self):
-        self.delete_record(self.tableView_4, self.model_vydacha)
-
-    def search_owners(self):
-        name = self.lineEdit.text()
-        surname = self.lineEdit_2.text()
-        otch = self.lineEdit_3.text()
-        phone = self.lineEdit_4.text()
-        city = self.lineEdit_5.text()
-        street = self.lineEdit_6.text()
-        home = self.lineEdit_7.text()
-
-        conditions = []
-        if name: conditions.append(f"name LIKE '%{name}%'")
-        if surname: conditions.append(f"surname LIKE '%{surname}%'")
-        if otch: conditions.append(f"otch LIKE '%{otch}%'")
-        if phone: conditions.append(f"phone LIKE '%{phone}%'")
-        if city: conditions.append(f"city LIKE '%{city}%'")
-        if street: conditions.append(f"street LIKE '%{street}%'")
-        if home: conditions.append(f"home LIKE '%{home}%'")
-
-        query_str = " AND ".join(conditions) if conditions else ""
-
-        self.model_owners.setFilter(query_str)
-        self.model_owners.select()
-
-    def reset_search_owners(self):
-        self.lineEdit.clear()
-        self.lineEdit_2.clear()
-        self.lineEdit_3.clear()
-        self.lineEdit_4.clear()
-        self.lineEdit_5.clear()
-        self.lineEdit_6.clear()
-        self.lineEdit_7.clear()
-        self.model_owners.setFilter("")
-        self.model_owners.select()
-
-    # ================= ЛОГИКА TAB 2 (МАШИНЫ) =================
-
-    def add_cars(self):
-        row = self.model_cars.rowCount()
-        self.model_cars.insertRow(row)
+            toy_id = self.model_toys.data(self.model_toys.index(indexes[0].row(), 0))
+        
+        if toy_id is None:
+            QMessageBox.warning(self, "Ошибка", "Выберите игрушку для добавления отзыва")
+            return
+        
+        row = self.model_reviews.rowCount()
+        self.model_reviews.insertRow(row)
+        
+        # Автоматически заполняем id_toy (столбец 1)
+        idx_toy = self.model_reviews.index(row, 1)
+        self.model_reviews.setData(idx_toy, toy_id)
+        
+        # Автоматически заполняем date_review (столбец 6) текущей датой
+        idx_date = self.model_reviews.index(row, 6)
+        self.model_reviews.setData(idx_date, QDate.currentDate().toString("yyyy-MM-dd"))
+        
         self.tableView_2.selectRow(row)
+        print(f"→ Добавлен новый отзыв для игрушки ID={toy_id}")
 
-    def delete_record_cars(self):
-        self.delete_record(self.tableView_2, self.model_cars)
+    def delete_review(self):
+        """Удаление отзыва с подтверждением"""
+        row = self.tableView_2.currentIndex().row()
+        if row < 0:
+            QMessageBox.warning(self, "Ошибка", "Выберите строку для удаления")
+            return
+        
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Подтверждение")
+        msg_box.setText("Удалить отзыв?")
+        msg_box.setIcon(QMessageBox.Warning)
+        btn_yes = msg_box.addButton("Да", QMessageBox.YesRole)
+        btn_no = msg_box.addButton("Нет", QMessageBox.NoRole)
+        msg_box.exec()
+        
+        if msg_box.clickedButton() == btn_yes:
+            print(f"→ Попытка удаления отзыва (row={row})")
+            if self.model_reviews.removeRow(row):
+                if self.model_reviews.submitAll():
+                    print(f"  ✓ Отзыв удален")
+                    # ОБЯЗАТЕЛЬНО обновляем модель после удаления
+                    self.model_reviews.select()
+                else:
+                    print(f"  ✗ Ошибка сохранения: {self.model_reviews.lastError().text()}")
+                    QMessageBox.critical(self, "Ошибка удаления", 
+                        f"Не удалось удалить отзыв.\n\nОшибка: {self.model_reviews.lastError().text()}")
+                    self.model_reviews.select()
+            else:
+                print(f"  ✗ Не удалось удалить строку")
+                QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    def search_cars(self):
-        mark_filter = self.comboBox.currentText()
-        color_filter = self.comboBox_2.currentText()
-        price_ot = self.doubleSpinBox_2.value()  # Цена от
-        price_do = self.doubleSpinBox.value()    # Цена до
+    def search_toys(self):
+        """Поиск игрушек с фильтрацией на стороне Python для поддержки кириллицы"""
+        title_toy = self.lineEdit_2.text().lower()
+        category_index = self.comboBox.currentIndex()
+        category_id = self.comboBox.itemData(category_index)
+        maker = self.lineEdit_3.text().lower()
+        description = self.lineEdit_4.text().lower()
+        cost_from = self.spinBox_1.value()
+        cost_to = self.spinBox_2.value()
+        count_from = self.spinBox_3.value()
+        count_to = self.spinBox_4.value()
+        
+        # Получаем все данные из таблицы toys
+        query = QSqlQuery("SELECT * FROM toys", self.db)
+        
+        # Создаем временную модель для отфильтрованных результатов
+        filtered_model = QSqlQueryModel(self)
+        
+        # Собираем отфильтрованные данные
+        filtered_data = []
+        while query.next():
+            id_toy = query.value(0)
+            title = query.value(1) or ""
+            id_category = query.value(2)
+            maker_val = query.value(3) or ""
+            cost = query.value(4) or 0
+            age = query.value(5)
+            count = query.value(6) or 0
+            desc = query.value(7) or ""
+            
+            # Проверяем условия (регистронезависимо)
+            match = True
+            
+            if title_toy and title_toy not in title.lower():
+                match = False
+            if category_id != -1 and id_category != category_id:
+                match = False
+            if maker and maker not in maker_val.lower():
+                match = False
+            if description and description not in desc.lower():
+                match = False
+            if cost_from > 0 and cost < cost_from:
+                match = False
+            if cost_to > 0 and cost > cost_to:
+                match = False
+            if count_from > 0 and count < count_from:
+                match = False
+            if count_to > 0 and count > count_to:
+                match = False
+            
+            if match:
+                filtered_data.append((id_toy, title, id_category, maker_val, cost, age, count, desc))
+        
+        # Если есть результаты, показываем их
+        if filtered_data:
+            # Создаем SQL запрос с ID найденных записей
+            ids = [str(d[0]) for d in filtered_data]
+            ids_str = ",".join(ids)
+            self.model_toys.setFilter(f"id_toy IN ({ids_str})")
+        else:
+            # Если ничего не найдено, показываем пустую таблицу
+            self.model_toys.setFilter("id_toy = -1")
+        
+        self.model_toys.select()
+        print(f"🔍 Найдено записей: {len(filtered_data)}")
 
-        conditions = []
-        if mark_filter != "Все марки":
-            conditions.append(f"mark = '{mark_filter}'")
-        if color_filter != "Все цвета":
-            conditions.append(f"color = '{color_filter}'")
+    def update_statistics(self):
+        """Обновление статистики из таблицы toys_statistics"""
+        query = QSqlQuery("SELECT count_toys, min_cost, max_cost, avg_cost FROM toys_statistics WHERE id=1", self.db)
+        
+        if query.next():
+            count_toys = query.value(0) or 0
+            min_cost = query.value(1) or 0
+            max_cost = query.value(2) or 0
+            avg_cost = query.value(3) or 0
+            
+            # Обновляем labels
+            self.label_9.setText(str(count_toys))
+            self.label_10.setText(str(min_cost))
+            self.label_11.setText(str(max_cost))
+            # avg_cost с 2 знаками после запятой
+            self.label_12.setText(f"{avg_cost:.2f}")
+            
+            print(f"📊 Статистика обновлена: count={count_toys}, min={min_cost}, max={max_cost}, avg={avg_cost:.2f}")
+        else:
+            # Если данных нет, устанавливаем нули
+            self.label_9.setText("0")
+            self.label_10.setText("0")
+            self.label_11.setText("0")
+            self.label_12.setText("0.00")
+            print("⚠️ Таблица toys_statistics пуста")
 
-        # Фильтрация по цене
-        if price_ot > 0:
-            conditions.append(f"cost >= {price_ot}")
-        if price_do > 0:
-            conditions.append(f"cost <= {price_do}")
+    def closeEvent(self, event):
+        """При закрытии приложения сохраняем все изменения"""
+        # Принудительно сохраняем все изменения в БД
+        self.model_toys.submitAll()
+        self.model_reviews.submitAll()
+        event.accept()
 
-        query_str = " AND ".join(conditions)
-        self.model_cars.setFilter(query_str)
-        self.model_cars.select()
-        print(f"Поиск cars: фильтр='{query_str}'")
 
-    def reset_search_cars(self):
-        self.comboBox.setCurrentIndex(0)
-        self.comboBox_2.setCurrentIndex(0)
-        self.doubleSpinBox_2.setValue(0.0)
-        self.doubleSpinBox.setValue(0.0)
-        self.model_cars.setFilter("")
-        self.model_cars.select()
-
-    # ================= ЛОГИКА TAB 3 (ПРАВА) =================
-
-    def add_prava(self):
-        row = self.model_prava.rowCount()
-        self.model_prava.insertRow(row)
-        self.tableView_3.selectRow(row)
-
-    def delete_record_prava(self):
-        self.delete_record(self.tableView_3, self.model_prava)
-
-    def search_prava(self):
-        id_owner_text = self.lineEdit_10.text()  # ID владельца
-        id_car_text = self.lineEdit_11.text()    # ID машины
-
-        conditions = []
-        if id_owner_text:
-            conditions.append(f"id_owner = {id_owner_text}")
-        if id_car_text:
-            conditions.append(f"id_car = {id_car_text}")
-
-        query_str = " AND ".join(conditions)
-        self.model_prava.setFilter(query_str)
-        self.model_prava.select()
-
-    def reset_search_prava(self):
-        self.lineEdit_10.clear()
-        self.lineEdit_11.clear()
-        self.model_prava.setFilter("")
-        self.model_prava.select()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = AppLogic()
+    window.show()
+    sys.exit(app.exec())
