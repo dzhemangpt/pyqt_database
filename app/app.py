@@ -2,10 +2,10 @@ import sys
 from datetime import datetime
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QHeaderView, QStyledItemDelegate
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
-from PySide6.QtCore import Qt, QDate
-from app.ui.new_ui import Ui_MainWindow
 from PySide6.QtCore import Qt, QDate, QTimer
-from PySide6.QtSql import QSqlQueryModel
+from app.ui.new_main_ui import Ui_MainWindow
+
+
 class NumberDelegate(QStyledItemDelegate):
     """Делегат для форматирования чисел (цена с 2 знаками после запятой)"""
     def displayText(self, value, locale):
@@ -16,6 +16,7 @@ class NumberDelegate(QStyledItemDelegate):
                 return f"{value:.2f}"
         return str(value)
 
+
 class AppLogic(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -23,316 +24,346 @@ class AppLogic(QMainWindow, Ui_MainWindow):
 
         # 1. Подключение к базе данных
         self.db = QSqlDatabase.addDatabase("QSQLITE")
-        self.db.setDatabaseName("toys.db")
-        
+        self.db.setDatabaseName("sport_section.db")
         if not self.db.open():
-            QMessageBox.critical(self, "Ошибка", "Не удалось подключиться к базе данных toys.db")
+            QMessageBox.critical(self, "Ошибка", "Не удалось подключиться к базе данных sport_section.db")
             sys.exit(1)
-        
         print("База данных подключена успешно!")
 
         # 2. Настройка моделей данных
         self.setup_models()
-        
+
         # 3. Настройка интерфейса и связей
         self.setup_ui_logic()
-        
-        # 4. Заполнение ComboBox категориями
+
+        # 4. Заполнение ComboBox группами
         self.populate_comboboxes()
-        
+
         # 5. Инициализация статистики
         self.update_statistics()
 
     def setup_models(self):
-        # --- MODEL 1: Toys (Игрушки - верхняя таблица) ---
-        self.model_toys = QSqlTableModel(self, self.db)
-        self.model_toys.setTable("toys")
-        self.model_toys.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
-        self.model_toys.setHeaderData(1, Qt.Orientation.Horizontal, "Название")
-        self.model_toys.setHeaderData(2, Qt.Orientation.Horizontal, "ID Категории")
-        self.model_toys.setHeaderData(3, Qt.Orientation.Horizontal, "Производитель")
-        self.model_toys.setHeaderData(4, Qt.Orientation.Horizontal, "Цена")
-        self.model_toys.setHeaderData(5, Qt.Orientation.Horizontal, "Возраст")
-        self.model_toys.setHeaderData(6, Qt.Orientation.Horizontal, "Количество")
-        self.model_toys.setHeaderData(7, Qt.Orientation.Horizontal, "Описание")
-        self.model_toys.select()
-        self.tableView.setModel(self.model_toys)
+        # --- MODEL 1: Athletes (Спортсмены - верхняя таблица) ---
+        self.model_athletes = QSqlTableModel(self, self.db)
+        self.model_athletes.setTable("athletes")
+        self.model_athletes.setHeaderData(0, Qt.Orientation.Horizontal, "ID")
+        self.model_athletes.setHeaderData(1, Qt.Orientation.Horizontal, "Имя атлета")
+        self.model_athletes.setHeaderData(2, Qt.Orientation.Horizontal, "ID группы")
+        self.model_athletes.setHeaderData(3, Qt.Orientation.Horizontal, "Дата рождения")
+        self.model_athletes.setHeaderData(4, Qt.Orientation.Horizontal, "Рост")
+        self.model_athletes.setHeaderData(5, Qt.Orientation.Horizontal, "Вес")
+        self.model_athletes.select()
+        self.tableView.setModel(self.model_athletes)
         self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        
-        # Устанавливаем делегат для столбца "Цена" (индекс 4)
-        price_delegate = NumberDelegate(self.tableView)
-        self.tableView.setItemDelegateForColumn(4, price_delegate)
+        self.tableView.setColumnHidden(0, True)
 
-        # --- MODEL 2: Reviews (Отзывы - нижняя таблица) ---
-        self.model_reviews = QSqlTableModel(self, self.db)
-        self.model_reviews.setTable("reviews")
-        self.model_reviews.setHeaderData(0, Qt.Orientation.Horizontal, "ID Отзыва")
-        # Скрываем id_toy (индекс 1), не устанавливаем заголовок
-        self.model_reviews.setHeaderData(2, Qt.Orientation.Horizontal, "Имя покупателя")
-        self.model_reviews.setHeaderData(3, Qt.Orientation.Horizontal, "Рейтинг")
-        self.model_reviews.setHeaderData(4, Qt.Orientation.Horizontal, "Текст")
-        self.model_reviews.setHeaderData(5, Qt.Orientation.Horizontal, "Дата покупки")
-        self.model_reviews.setHeaderData(6, Qt.Orientation.Horizontal, "Дата отзыва")
-        self.model_reviews.select()
-        self.tableView_2.setModel(self.model_reviews)
+        # --- MODEL 2: Workouts (Тренировки - нижняя таблица) ---
+        self.model_workouts = QSqlTableModel(self, self.db)
+        self.model_workouts.setTable("workouts")
+        self.model_workouts.setHeaderData(0, Qt.Orientation.Horizontal, "ID тренировки")
+        self.model_workouts.setHeaderData(1, Qt.Orientation.Horizontal, "ID атлета")
+        self.model_workouts.setHeaderData(2, Qt.Orientation.Horizontal, "Дата тренировки")
+        self.model_workouts.setHeaderData(3, Qt.Orientation.Horizontal, "Время начала")
+        self.model_workouts.setHeaderData(4, Qt.Orientation.Horizontal, "Длительность")
+        self.model_workouts.setHeaderData(5, Qt.Orientation.Horizontal, "Тип тренировки")
+        self.model_workouts.setHeaderData(6, Qt.Orientation.Horizontal, "Оценка")
+        self.model_workouts.select()
+        self.tableView_2.setModel(self.model_workouts)
         self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        
-        # Скрываем столбец id_toy (индекс 1)
-        self.tableView_2.setColumnHidden(1, True)
+        self.tableView_2.setColumnHidden(0, True)
 
     def populate_comboboxes(self):
-        """Заполняем ComboBox категориями из таблицы category"""
-        query = QSqlQuery("SELECT id_category, title_category FROM category ORDER BY title_category", self.db)
+        """Заполняем ComboBox группами из таблицы groups"""
+        query = QSqlQuery("SELECT groud_id, group_name FROM groups ORDER BY groud_id", self.db)
         self.comboBox.clear()
-        self.comboBox.addItem("Все категории", -1)  # Значение -1 для отображения всех
-        
+        self.comboBox.addItem("Все группы", -1)
         while query.next():
-            id_category = query.value(0)
-            title_category = query.value(1)
-            self.comboBox.addItem(title_category, id_category)
+            id_group = query.value(0)
+            name_group = query.value(1)
+            self.comboBox.addItem(name_group, id_group)
 
     def setup_ui_logic(self):
-    # Связь: при клике на игрушку показываем её отзывы
-        self.tableView.selectionModel().selectionChanged.connect(self.on_toy_selected)
-        
-        # Отслеживаем изменения в модели toys для обновления статистики
-        self.model_toys.dataChanged.connect(self.on_toy_modified)
-        
-        # Кнопки для toys
-        self.pushButton_3.clicked.connect(self.add_toy)
-        self.pushButton_4.clicked.connect(self.delete_toy)
-        self.pushButton_1.clicked.connect(self.search_toys)
-        self.pushButton_2.clicked.connect(self.reset_search)
-        
-        # Кнопки для reviews
-        self.pushButton_5.clicked.connect(self.add_review)
-        self.pushButton_6.clicked.connect(self.delete_review)
+        # Связь: при клике на спортсмена показываем его тренировки
+        self.tableView.selectionModel().selectionChanged.connect(self.on_athlete_selected)
 
-    def on_toy_modified(self, top_left, bottom_right, roles):
-        """Вызывается при изменении данных в таблице toys"""
-        # Используем QTimer для отложенного вызова после сохранения в БД
+        # Отслеживаем изменения в модели athletes для обновления статистики
+        self.model_athletes.dataChanged.connect(self.on_athlete_data_changed)
+
+        # === НОВОЕ: Отслеживаем изменения в модели workouts ===
+        # Срабатывает при добавлении, удалении, изменении записей (включая поле mark)
+        self.model_workouts.dataChanged.connect(self.on_workout_data_changed)
+        # Также подключаем сигналы строк для отлова добавления/удаления
+        self.model_workouts.rowsInserted.connect(self.on_workout_rows_changed)
+        self.model_workouts.rowsRemoved.connect(self.on_workout_rows_changed)
+
+        # Кнопки для athletes
+        self.pushButton_3.clicked.connect(self.add_athlete)
+        self.pushButton_4.clicked.connect(self.delete_athlete)
+        self.pushButton_1.clicked.connect(self.search_athletes)
+        self.pushButton_2.clicked.connect(self.clear_search)
+
+        # Кнопки для workouts
+        self.pushButton_5.clicked.connect(self.add_workout)
+        self.pushButton_6.clicked.connect(self.delete_workout)
+
+    # ================= ОБРАБОТЧИКИ ИЗМЕНЕНИЙ =================
+
+    def on_athlete_data_changed(self, top_left, bottom_right, roles):
+        """Вызывается при изменении данных в таблице athletes"""
         QTimer.singleShot(200, self.update_statistics)
 
-    def on_toy_selected(self):
-        """При выборе игрушки фильтруем отзывы"""
+    def on_workout_data_changed(self, top_left, bottom_right, roles):
+        """Вызывается при изменении данных в таблице workouts (включая поле mark)"""
+        QTimer.singleShot(200, self.update_statistics)
+
+    def on_workout_rows_changed(self, parent, first, last):
+        """Вызывается при добавлении или удалении строк в workouts"""
+        QTimer.singleShot(200, self.update_statistics)
+
+    # ================= СТАТИСТИКА =================
+
+    def update_statistics(self, athlete_id=None):
+        """Обновляет статистику для группы выбранного спортсмена"""
+        if athlete_id is None:
+            indexes = self.tableView.selectionModel().selectedRows()
+            if indexes:
+                row = indexes[0].row()
+                athlete_id = self.model_athletes.data(self.model_athletes.index(row, 0))
+            else:
+                # Если ничего не выбрано – показываем нули
+                self.label_9.setText("0")
+                self.label_10.setText("0")
+                return
+
+        # Получаем group_id выбранного спортсмена (столбец с индексом 2)
+        row = self.tableView.currentIndex().row()
+        group_id = self.model_athletes.data(self.model_athletes.index(row, 2))
+
+        if group_id is None:
+            self.label_9.setText("0")
+            self.label_10.setText("0")
+            return
+
+        # Считаем количество записей и среднее значение mark
+        # для всех спортсменов из данной группы
+        query = QSqlQuery(self.db)
+        query.prepare("""
+            SELECT COUNT(w.mark), AVG(w.mark)
+            FROM workouts w
+            JOIN athletes a ON w.athlete_id = a.athlete_id
+            WHERE a.group_id = :group_id
+        """)
+        query.bindValue(":group_id", group_id)
+        query.exec()
+
+        if query.next():
+            count_marks = query.value(0) or 0
+            avg_mark = query.value(1) or 0
+
+            self.label_9.setText(str(count_marks))
+            self.label_10.setText(f"{avg_mark:.2f}")
+        else:
+            self.label_9.setText("0")
+            self.label_10.setText("0")
+
+    # ================= ВЫБОР СТРОКИ =================
+
+    def on_athlete_selected(self):
+        """При выборе спортсмена фильтруем тренировки"""
         indexes = self.tableView.selectionModel().selectedRows()
-        
         if not indexes:
             # Если ничего не выбрано - показываем пустую таблицу
-            self.model_reviews.setFilter("id_review = -1")
-            self.model_reviews.select()
+            self.model_workouts.setFilter("workout_id = -1")
+            self.model_workouts.select()
+            self.label_9.setText("0")
+            self.label_10.setText("0")
             return
-        
-        # Получаем ID выбранной игрушки (первый столбец = 0)
+
+        # Получаем ID выбранного спортсмена (первый столбец = 0)
         row = indexes[0].row()
-        toy_id = self.model_toys.data(self.model_toys.index(row, 0))
-        
-        if toy_id is not None:
-            # Фильтруем отзывы по id_toy
-            self.model_reviews.setFilter(f"id_toy = {toy_id}")
-            self.model_reviews.select()
-            print(f"✓ Показаны отзывы для игрушки ID={toy_id}")
+        athlete_id = self.model_athletes.data(self.model_athletes.index(row, 0))
+
+        if athlete_id is not None:
+            # Фильтруем тренировки по athlete_id
+            self.model_workouts.setFilter(f"athlete_id = {athlete_id}")
+            self.model_workouts.select()
+            print(f"✓ Показаны тренировки для спортсмена ID={athlete_id}")
         else:
-            self.model_reviews.setFilter("id_review = -1")
-            self.model_reviews.select()
+            self.model_workouts.setFilter("workout_id = -1")
+            self.model_workouts.select()
 
-    def add_toy(self):
-        """Добавление новой игрушки"""
-        row = self.model_toys.rowCount()
-        self.model_toys.insertRow(row)
+        self.update_statistics()
+
+    # ================= ДОБАВЛЕНИЕ / УДАЛЕНИЕ ATHLETES =================
+
+    def add_athlete(self):
+        """Добавление нового спортсмена"""
+        row = self.model_athletes.rowCount()
+        self.model_athletes.insertRow(row)
         self.tableView.selectRow(row)
-        print(f"→ Добавлена новая строка игрушки (row={row})")
+        print(f"→ Добавлена новая строка спортсмена (row={row})")
 
-    def delete_toy(self):
-        """Удаление игрушки с подтверждением"""
+    def delete_athlete(self):
+        """Удаление спортсмена с подтверждением"""
         row = self.tableView.currentIndex().row()
         if row < 0:
             QMessageBox.warning(self, "Ошибка", "Выберите строку для удаления")
             return
-        
+
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Подтверждение")
-        msg_box.setText("Удалить игрушку?")
+        msg_box.setText("Удалить спортсмена?")
         msg_box.setIcon(QMessageBox.Warning)
         btn_yes = msg_box.addButton("Да", QMessageBox.YesRole)
         btn_no = msg_box.addButton("Нет", QMessageBox.NoRole)
         msg_box.exec()
-        
+
         if msg_box.clickedButton() == btn_yes:
-            print(f"→ Попытка удаления игрушки (row={row})")
-            if self.model_toys.removeRow(row):
-                if self.model_toys.submitAll():
-                    print(f"  ✓ Игрушка удалена")
-                    # ОБЯЗАТЕЛЬНО обновляем модель после удаления
-                    self.model_toys.select()
-                    # Обновляем статистику после удаления
+            print(f"→ Попытка удаления спортсмена (row={row})")
+            if self.model_athletes.removeRow(row):
+                if self.model_athletes.submitAll():
+                    print(f"  ✓ Спортсмен удален")
+                    self.model_athletes.select()
                     self.update_statistics()
-                    # Если был выбран удаленный элемент, очищаем отзывы
-                    self.model_reviews.setFilter("id_review = -1")
-                    self.model_reviews.select()
+                    self.model_workouts.setFilter("workout_id = -1")
+                    self.model_workouts.select()
                 else:
-                    print(f"  ✗ Ошибка сохранения: {self.model_toys.lastError().text()}")
-                    QMessageBox.critical(self, "Ошибка удаления", 
-                        f"Не удалось удалить запись.\n\nОшибка: {self.model_toys.lastError().text()}")
-                    self.model_toys.select()
+                    print(f"  ✗ Ошибка сохранения: {self.model_athletes.lastError().text()}")
+                    QMessageBox.critical(self, "Ошибка удаления",
+                        f"Не удалось удалить запись.\n\nОшибка: {self.model_athletes.lastError().text()}")
+                    self.model_athletes.select()
             else:
                 print(f"  ✗ Не удалось удалить строку")
                 QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    def add_review(self):
-        """Добавление отзыва с автоматическим заполнением id_toy и date_review"""
-        # Получаем выбранную игрушку
-        indexes = self.tableView.selectionModel().selectedRows()
-        toy_id = None
-        if indexes:
-            toy_id = self.model_toys.data(self.model_toys.index(indexes[0].row(), 0))
-        
-        if toy_id is None:
-            QMessageBox.warning(self, "Ошибка", "Выберите игрушку для добавления отзыва")
-            return
-        
-        row = self.model_reviews.rowCount()
-        self.model_reviews.insertRow(row)
-        
-        # Автоматически заполняем id_toy (столбец 1)
-        idx_toy = self.model_reviews.index(row, 1)
-        self.model_reviews.setData(idx_toy, toy_id)
-        
-        # Автоматически заполняем date_review (столбец 6) текущей датой
-        idx_date = self.model_reviews.index(row, 6)
-        self.model_reviews.setData(idx_date, QDate.currentDate().toString("yyyy-MM-dd"))
-        
-        self.tableView_2.selectRow(row)
-        print(f"→ Добавлен новый отзыв для игрушки ID={toy_id}")
+    # ================= ДОБАВЛЕНИЕ / УДАЛЕНИЕ WORKOUTS =================
 
-    def delete_review(self):
-        """Удаление отзыва с подтверждением"""
+    def add_workout(self):
+        """Добавление тренировки с автоматическим заполнением athlete_id и даты"""
+        indexes = self.tableView.selectionModel().selectedRows()
+        athlete_id = None
+        if indexes:
+            athlete_id = self.model_athletes.data(self.model_athletes.index(indexes[0].row(), 0))
+
+        if athlete_id is None:
+            QMessageBox.warning(self, "Ошибка", "Выберите спортсмена для добавления тренировки")
+            return
+
+        row = self.model_workouts.rowCount()
+        self.model_workouts.insertRow(row)
+
+        # Автоматически заполняем athlete_id (столбец 1)
+        idx_athlete = self.model_workouts.index(row, 1)
+        self.model_workouts.setData(idx_athlete, athlete_id)
+
+        # Автоматически заполняем date1 (столбец 2) текущей датой
+        idx_date = self.model_workouts.index(row, 2)
+        self.model_workouts.setData(idx_date, QDate.currentDate().toString("yyyy-MM-dd"))
+
+        # Автоматически заполняем start_time (столбец 3) текущим временем
+        idx_time = self.model_workouts.index(row, 3)
+        now = datetime.now()
+        self.model_workouts.setData(idx_time, now.strftime("%H:%M"))
+
+        self.tableView_2.selectRow(row)
+        print(f"→ Добавлена новая тренировка для спортсмена ID={athlete_id}")
+
+    def delete_workout(self):
+        """Удаление тренировки с подтверждением"""
         row = self.tableView_2.currentIndex().row()
         if row < 0:
             QMessageBox.warning(self, "Ошибка", "Выберите строку для удаления")
             return
-        
+
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Подтверждение")
-        msg_box.setText("Удалить отзыв?")
+        msg_box.setText("Удалить тренировку?")
         msg_box.setIcon(QMessageBox.Warning)
         btn_yes = msg_box.addButton("Да", QMessageBox.YesRole)
         btn_no = msg_box.addButton("Нет", QMessageBox.NoRole)
         msg_box.exec()
-        
+
         if msg_box.clickedButton() == btn_yes:
-            print(f"→ Попытка удаления отзыва (row={row})")
-            if self.model_reviews.removeRow(row):
-                if self.model_reviews.submitAll():
-                    print(f"  ✓ Отзыв удален")
-                    # ОБЯЗАТЕЛЬНО обновляем модель после удаления
-                    self.model_reviews.select()
+            print(f"→ Попытка удаления тренировки (row={row})")
+            if self.model_workouts.removeRow(row):
+                if self.model_workouts.submitAll():
+                    print(f"  ✓ Тренировка удалена")
+                    self.model_workouts.select()
+                    # Статистика обновится через сигнал rowsRemoved
                 else:
-                    print(f"  ✗ Ошибка сохранения: {self.model_reviews.lastError().text()}")
-                    QMessageBox.critical(self, "Ошибка удаления", 
-                        f"Не удалось удалить отзыв.\n\nОшибка: {self.model_reviews.lastError().text()}")
-                    self.model_reviews.select()
+                    print(f"  ✗ Ошибка сохранения: {self.model_workouts.lastError().text()}")
+                    QMessageBox.critical(self, "Ошибка удаления",
+                        f"Не удалось удалить тренировку.\n\nОшибка: {self.model_workouts.lastError().text()}")
+                    self.model_workouts.select()
             else:
                 print(f"  ✗ Не удалось удалить строку")
                 QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    def search_toys(self):
-        """Поиск игрушек с фильтрацией на стороне Python для поддержки кириллицы"""
-        title_toy = self.lineEdit_2.text().lower()
-        category_index = self.comboBox.currentIndex()
-        category_id = self.comboBox.itemData(category_index)
-        maker = self.lineEdit_3.text().lower()
-        description = self.lineEdit_4.text().lower()
-        cost_from = self.spinBox_1.value()
-        cost_to = self.spinBox_2.value()
-        count_from = self.spinBox_3.value()
-        count_to = self.spinBox_4.value()
-        
-        # Получаем все данные из таблицы toys
-        query = QSqlQuery("SELECT * FROM toys", self.db)
-        
-        # Создаем временную модель для отфильтрованных результатов
-        filtered_model = QSqlQueryModel(self)
-        
-        # Собираем отфильтрованные данные
-        filtered_data = []
-        while query.next():
-            id_toy = query.value(0)
-            title = query.value(1) or ""
-            id_category = query.value(2)
-            maker_val = query.value(3) or ""
-            cost = query.value(4) or 0
-            age = query.value(5)
-            count = query.value(6) or 0
-            desc = query.value(7) or ""
-            
-            # Проверяем условия (регистронезависимо)
-            match = True
-            
-            if title_toy and title_toy not in title.lower():
-                match = False
-            if category_id != -1 and id_category != category_id:
-                match = False
-            if maker and maker not in maker_val.lower():
-                match = False
-            if description and description not in desc.lower():
-                match = False
-            if cost_from > 0 and cost < cost_from:
-                match = False
-            if cost_to > 0 and cost > cost_to:
-                match = False
-            if count_from > 0 and count < count_from:
-                match = False
-            if count_to > 0 and count > count_to:
-                match = False
-            
-            if match:
-                filtered_data.append((id_toy, title, id_category, maker_val, cost, age, count, desc))
-        
-        # Если есть результаты, показываем их
-        if filtered_data:
-            # Создаем SQL запрос с ID найденных записей
-            ids = [str(d[0]) for d in filtered_data]
-            ids_str = ",".join(ids)
-            self.model_toys.setFilter(f"id_toy IN ({ids_str})")
-        else:
-            # Если ничего не найдено, показываем пустую таблицу
-            self.model_toys.setFilter("id_toy = -1")
-        
-        self.model_toys.select()
-        print(f"🔍 Найдено записей: {len(filtered_data)}")
+    # ================= ПОИСК (нечувствительный к регистру) =================
 
-    def update_statistics(self):
-        """Обновление статистики из таблицы toys_statistics"""
-        query = QSqlQuery("SELECT count_toys, min_cost, max_cost, avg_cost FROM toys_statistics WHERE id=1", self.db)
-        
-        if query.next():
-            count_toys = query.value(0) or 0
-            min_cost = query.value(1) or 0
-            max_cost = query.value(2) or 0
-            avg_cost = query.value(3) or 0
-            
-            # Обновляем labels
-            self.label_9.setText(str(count_toys))
-            self.label_10.setText(str(min_cost))
-            self.label_11.setText(str(max_cost))
-            # avg_cost с 2 знаками после запятой
-            self.label_12.setText(f"{avg_cost:.2f}")
-            
-            print(f"📊 Статистика обновлена: count={count_toys}, min={min_cost}, max={max_cost}, avg={avg_cost:.2f}")
+    def search_athletes(self):
+        """Поиск спортсменов с фильтрацией на стороне Python (нечувствителен к регистру)"""
+        name = self.lineEdit_3.text().strip().lower()
+        group_idx = self.comboBox.currentIndex()
+        group_id = self.comboBox.itemData(group_idx)
+        date_from = self.lineEdit_4.text().strip()
+        date_to = self.lineEdit_2.text().strip()
+
+        # Получаем все данные из таблицы athletes
+        query = QSqlQuery("SELECT * FROM athletes", self.db)
+
+        filtered_ids = []
+        while query.next():
+            athlete_id = query.value(0)
+            name_val = (query.value(1) or "").lower()
+            group_val = query.value(2)
+            birth_date = query.value(3) or ""
+
+            match = True
+
+            # Фильтр по имени (нечувствителен к регистру)
+            if name and name not in name_val:
+                match = False
+
+            # Фильтр по группе
+            if group_id != -1 and group_val != group_id:
+                match = False
+
+            # Фильтр по дате рождения (от)
+            if date_from and birth_date < date_from:
+                match = False
+
+            # Фильтр по дате рождения (до)
+            if date_to and birth_date > date_to:
+                match = False
+
+            if match:
+                filtered_ids.append(str(athlete_id))
+
+        # Применяем фильтр
+        if filtered_ids:
+            ids_str = ",".join(filtered_ids)
+            self.model_athletes.setFilter(f"athlete_id IN ({ids_str})")
         else:
-            # Если данных нет, устанавливаем нули
-            self.label_9.setText("0")
-            self.label_10.setText("0")
-            self.label_11.setText("0")
-            self.label_12.setText("0.00")
-            print("⚠️ Таблица toys_statistics пуста")
+            self.model_athletes.setFilter("athlete_id = -1")
+
+        self.model_athletes.select()
+        print(f"🔍 Найдено спортсменов: {len(filtered_ids)}")
+
+    def clear_search(self):
+        """Сброс всех фильтров поиска"""
+        self.lineEdit_2.setText("")
+        self.lineEdit_3.setText("")
+        self.lineEdit_4.setText("")
+        self.comboBox.setCurrentIndex(0)
+        self.model_athletes.setFilter("")
+        self.model_athletes.select()
+        print("🔄 Поиск сброшен")
 
     def closeEvent(self, event):
         """При закрытии приложения сохраняем все изменения"""
-        # Принудительно сохраняем все изменения в БД
-        self.model_toys.submitAll()
-        self.model_reviews.submitAll()
+        self.model_athletes.submitAll()
+        self.model_workouts.submitAll()
         event.accept()
 
 

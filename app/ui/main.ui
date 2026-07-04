@@ -70,9 +70,9 @@ font-family: Noto Sans SC;</string>
       <property name="geometry">
        <rect>
         <x>730</x>
-        <y>10</y>
+        <y>30</y>
         <width>211</width>
-        <height>431</height>
+        <height>321</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -90,46 +90,52 @@ border: 1px solid rgb(255,255,255);
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
+         <y>210</y>
          <width>181</width>
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Calibri&quot;;</string>
+       </property>
        <property name="placeholderText">
-        <string>Название игрушки</string>
+        <string>в формате гггг-мм-дд</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_3">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>110</y>
+         <y>70</y>
          <width>181</width>
          <height>31</height>
         </rect>
        </property>
        <property name="placeholderText">
-        <string>Производитель</string>
+        <string>Имя спортсмена</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_4">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>150</y>
+         <y>140</y>
          <width>181</width>
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Calibri&quot;;</string>
+       </property>
        <property name="placeholderText">
-        <string>Описание</string>
+        <string>в формате гггг-мм-дд</string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_1">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>370</y>
+         <y>260</y>
          <width>81</width>
          <height>41</height>
         </rect>
@@ -168,7 +174,7 @@ background-color:rgba(255,255,255,60);
        <property name="geometry">
         <rect>
          <x>110</x>
-         <y>370</y>
+         <y>260</y>
          <width>91</width>
          <height>41</height>
         </rect>
@@ -207,7 +213,7 @@ background-color:rgba(255,255,255,60);
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>70</y>
+         <y>30</y>
          <width>181</width>
          <height>31</height>
         </rect>
@@ -220,8 +226,8 @@ background-color:rgba(255,255,255,60);
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>195</y>
-         <width>81</width>
+         <y>110</y>
+         <width>181</width>
          <height>21</height>
         </rect>
        </property>
@@ -233,25 +239,15 @@ border: 0px solid rgba(255,255,255);
 border-radius: 7px;</string>
        </property>
        <property name="text">
-        <string>Цена от:</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_1">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>190</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
+        <string>Дата рождения от:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>230</y>
-         <width>81</width>
+         <y>180</y>
+         <width>171</width>
          <height>21</height>
         </rect>
        </property>
@@ -263,77 +259,7 @@ border: 0px solid rgba(255,255,255);
 border-radius: 7px;</string>
        </property>
        <property name="text">
-        <string>Цена до:</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_2">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>225</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>275</y>
-         <width>91</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-       </property>
-       <property name="text">
-        <string>Кол-во от:</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_4">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>310</y>
-         <width>91</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 75 16pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-       </property>
-       <property name="text">
-        <string>Кол-во до:</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_4">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>305</y>
-         <width>81</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="spinBox_3">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>270</y>
-         <width>81</width>
-         <height>31</height>
-        </rect>
+        <string>Дата рождения до:</string>
        </property>
       </widget>
      </widget>
@@ -511,7 +437,7 @@ background-color:rgba(255,255,255,60);
        <rect>
         <x>10</x>
         <y>410</y>
-        <width>151</width>
+        <width>181</width>
         <height>16</height>
        </rect>
       </property>
@@ -523,7 +449,7 @@ border: 0px solid rgba(255,255,255);
 border-radius: 7px;</string>
       </property>
       <property name="text">
-       <string>Количество товаров:</string>
+       <string>Количество тренировок:</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_6">
@@ -531,7 +457,7 @@ border-radius: 7px;</string>
        <rect>
         <x>10</x>
         <y>430</y>
-        <width>151</width>
+        <width>181</width>
         <height>16</height>
        </rect>
       </property>
@@ -543,53 +469,13 @@ border: 0px solid rgba(255,255,255);
 border-radius: 7px;</string>
       </property>
       <property name="text">
-       <string>Минимальная цена:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>450</y>
-        <width>151</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 75 12pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-      </property>
-      <property name="text">
-       <string>Максимальная цена:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_8">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>470</y>
-        <width>151</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 75 12pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-      </property>
-      <property name="text">
-       <string>Средняя цена:</string>
+       <string>Средняя оценка тренера</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_9">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>200</x>
         <y>410</y>
         <width>91</width>
         <height>16</height>
@@ -609,48 +495,8 @@ border-radius: 7px;</string>
      <widget class="QLabel" name="label_10">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>200</x>
         <y>430</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 75 12pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_11">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>450</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 75 12pt &quot;Calibri&quot;;
-background-color:rgba(255,255,255,0);
-color:white;
-border: 0px solid rgba(255,255,255);
-border-radius: 7px;</string>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>470</y>
         <width>91</width>
         <height>16</height>
        </rect>
