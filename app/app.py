@@ -120,8 +120,6 @@ class AppLogic(QMainWindow, Ui_MainWindow):
         """Вызывается при добавлении или удалении строк в workouts"""
         QTimer.singleShot(200, self.update_statistics)
 
-    # ================= СТАТИСТИКА =================
-
     def update_statistics(self, athlete_id=None):
         """Обновляет статистику для группы выбранного спортсмена"""
         if athlete_id is None:
@@ -166,8 +164,6 @@ class AppLogic(QMainWindow, Ui_MainWindow):
             self.label_9.setText("0")
             self.label_10.setText("0")
 
-    # ================= ВЫБОР СТРОКИ =================
-
     def on_athlete_selected(self):
         """При выборе спортсмена фильтруем тренировки"""
         indexes = self.tableView.selectionModel().selectedRows()
@@ -194,7 +190,7 @@ class AppLogic(QMainWindow, Ui_MainWindow):
 
         self.update_statistics()
 
-    # ================= ДОБАВЛЕНИЕ / УДАЛЕНИЕ ATHLETES =================
+
 
     def add_athlete(self):
         """Добавление нового спортсмена"""
@@ -228,15 +224,14 @@ class AppLogic(QMainWindow, Ui_MainWindow):
                     self.model_workouts.setFilter("workout_id = -1")
                     self.model_workouts.select()
                 else:
-                    print(f"  ✗ Ошибка сохранения: {self.model_athletes.lastError().text()}")
+                    print(f"Ошибка сохранения: {self.model_athletes.lastError().text()}")
                     QMessageBox.critical(self, "Ошибка удаления",
                         f"Не удалось удалить запись.\n\nОшибка: {self.model_athletes.lastError().text()}")
                     self.model_athletes.select()
             else:
-                print(f"  ✗ Не удалось удалить строку")
+                print(f"Не удалось удалить строку")
                 QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    # ================= ДОБАВЛЕНИЕ / УДАЛЕНИЕ WORKOUTS =================
 
     def add_workout(self):
         """Добавление тренировки с автоматическим заполнением athlete_id и даты"""
@@ -291,15 +286,15 @@ class AppLogic(QMainWindow, Ui_MainWindow):
                     self.model_workouts.select()
                     # Статистика обновится через сигнал rowsRemoved
                 else:
-                    print(f"  ✗ Ошибка сохранения: {self.model_workouts.lastError().text()}")
+                    print(f"Ошибка сохранения: {self.model_workouts.lastError().text()}")
                     QMessageBox.critical(self, "Ошибка удаления",
                         f"Не удалось удалить тренировку.\n\nОшибка: {self.model_workouts.lastError().text()}")
                     self.model_workouts.select()
             else:
-                print(f"  ✗ Не удалось удалить строку")
+                print(f" Не удалось удалить строку")
                 QMessageBox.warning(self, "Ошибка", "Не удалось удалить строку")
 
-    # ================= ПОИСК (нечувствительный к регистру) =================
+   
 
     def search_athletes(self):
         """Поиск спортсменов с фильтрацией на стороне Python (нечувствителен к регистру)"""
@@ -348,7 +343,7 @@ class AppLogic(QMainWindow, Ui_MainWindow):
             self.model_athletes.setFilter("athlete_id = -1")
 
         self.model_athletes.select()
-        print(f"🔍 Найдено спортсменов: {len(filtered_ids)}")
+        print(f"Найдено спортсменов: {len(filtered_ids)}")
 
     def clear_search(self):
         """Сброс всех фильтров поиска"""
@@ -358,7 +353,7 @@ class AppLogic(QMainWindow, Ui_MainWindow):
         self.comboBox.setCurrentIndex(0)
         self.model_athletes.setFilter("")
         self.model_athletes.select()
-        print("🔄 Поиск сброшен")
+       
 
     def closeEvent(self, event):
         """При закрытии приложения сохраняем все изменения"""
